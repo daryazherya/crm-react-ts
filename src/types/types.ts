@@ -1,8 +1,3 @@
-export interface State {
-    requests: [],
-    setRequests: (state: []) => void,
-}
-
 export interface Request {
     id: number,
     date: string,
@@ -40,6 +35,17 @@ export interface Product {
 
 export type StatusKeyProduct = keyof Product;
 
+export interface Requests {
+    requests: [],
+    status: string | null,
+    error: string | null | undefined
+} 
+
+export interface EditState {
+    findedRequest: Request | null 
+}
+
+
 export type StatusName = {
     name: string;
     attr: string;
@@ -51,24 +57,6 @@ export type Filter = {
     status: string
 }
 
-export type LeftPanelProps = {
-    filter: Filter;
-    setFilter: (filter: Filter) => void;
-}
 
-export type MainTableProps = {
-    requests: [];
-    setFilter: (filter: Filter) => void;
-    filter: Filter; 
-    filterData: (requests: Request[]) => Request[];
-}
 
-export type RenderDataProps = {
-    requests: [];
-    filterData: (requests: Request[]) => Request[];
-}
-export type StatusAndProducts = {
-    setFilter: (filter: Filter) => void;
-    filter: Filter; 
-}
 

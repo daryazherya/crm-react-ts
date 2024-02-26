@@ -1,17 +1,26 @@
-import { StatusAndProducts } from "../../types/types";
+import { setFilter } from "../../redux/features/sliceTablePage";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import ButtonStatus from "./ButtonStatus";
 
-const FormStatusAndProducts:React.FC<StatusAndProducts> = ({setFilter, filter}) => {
+const FormStatusAndProducts:React.FC = () => {
+    const filter = useAppSelector(state => state.TableSlice.filter);
+    const dispatch = useAppDispatch();
    
     return (
         <form action="">
             <div className="row mb-3 justify-content-start">
                 <div className="col">
-                    <ButtonStatus filter={filter} setFilter={setFilter}/>
+                    <ButtonStatus />
                 </div>
                 <div className="col">
-                    <select onChange={(e)=>{setFilter({...filter,product: e.target.value})}} value={filter.product}
-                        className="custom-select" id="productSelect">
+                    <select 
+                        onChange={(e) =>{
+                            dispatch(setFilter({...filter, product: e.target.value}))
+                        }} 
+                        value={filter.product}
+                        className="custom-select" 
+                        id="productSelect"
+                    >
                         <option value='all'>Все продукты</option>
                         <option value="course-html">Курс по верстке</option>
                         <option value="course-js">Курс по JavaScript</option>

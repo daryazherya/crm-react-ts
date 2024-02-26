@@ -1,10 +1,28 @@
-import { RenderDataProps, Request, StatusKey, StatusKeyClass, StatusKeyProduct } from "../../types/types"
+import { useAppSelector } from "../../redux/hooks";
+import { Request, StatusKey, StatusKeyClass, StatusKeyProduct } from "../../types/types"
 import { productObj1, statusClass, statusObj } from "../helpers/constants"
 import { Link } from "react-router-dom";
 
   
 
-const RenderData: React.FC<RenderDataProps> = ({requests, filterData}) => {
+const RenderData: React.FC = () => {
+    const requests  = useAppSelector(state => state.AppSlice.requests);
+    const filter = useAppSelector(state => state.TableSlice.filter);
+
+    const filterData = (dataTable: Request[]): Request[] => {
+        let requests: Request[] = [];
+        if(filter.product !== 'all') {
+            requests = dataTable.filter((request: Request) => request.product === filter.product);
+
+        } else if (filter.product ==='all') {
+            requests = [...dataTable];
+        }
+
+        if (filter.status !== 'all') {
+            requests = requests.filter((request: Request) => request.status === filter.status)   
+        }
+        return requests;
+    }
         
     return filterData(requests).map((item: Request)=>{
         return (

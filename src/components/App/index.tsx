@@ -2,46 +2,29 @@ import FormPage from "../FormPage"
 import TablePage from "../TablePage";
 import EditPage from "../EditPage";
 import NotFound from '../NotFound';
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import { createContext, useEffect } from "react";
-import { useState } from "react";
-import { serverPath } from '../helpers/constants';
-import { State } from "../../types/types";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { fetchRequests } from "../../redux/features/sliceApp";
+import { useAppDispatch,  } from "../../redux/hooks";
+import { useEffect } from "react";
 
-
-export const AppContext = createContext<State>({
-    requests: [],
-    setRequests: () => {},
-});
 
 const App:React.FC = () => {
-    const [requests, setRequests] = useState<[]>([]);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        async function fetchRequests() {
-            try {
-                const response = await fetch(serverPath);
-                const data = await response.json();
-                setRequests(data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchRequests()
-    },[])
-    console.log(requests,'<<<')
+        dispatch(fetchRequests());
+    },[dispatch])
 
     return (
-        <AppContext.Provider value = {{requests, setRequests}}>
-            <Router>
+        <BrowserRouter>
             <Routes>
                 <Route 
                     path="/" 
-                    element={<FormPage />}
-                ></Route>
+                    element={<FormPage />}>
+                </Route>
                 <Route 
                     path="/table" 
-                    element={<TablePage 
+                    element={<TablePage
                 />}></Route>
                 <Route 
                     path="/edit/:id" 
@@ -52,8 +35,8 @@ const App:React.FC = () => {
                     element={<NotFound
                 />}></Route>
             </Routes>
-            </Router>
-        </AppContext.Provider> 
+        </BrowserRouter>
+        
     );
 }
     

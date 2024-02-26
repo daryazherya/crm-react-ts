@@ -4,9 +4,13 @@ import { Link } from "react-router-dom";
 import photo from '../../avatars/avatar-128.jpg';
 import {  StatusName } from '../../types/types';
 import { statusName } from '../helpers/constants';
-import { LeftPanelProps } from '../../types/types';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setFilter } from '../../redux/features/sliceTablePage';
 
-const LeftPanel: React.FC<LeftPanelProps> = ({filter, setFilter}) => {	
+
+const LeftPanel: React.FC = () => {	
+    const filter = useAppSelector(state => state.TableSlice.filter);
+    const dispatch = useAppDispatch();
    
     return ( 
         <div className="left-panel blue-skin">
@@ -27,7 +31,7 @@ const LeftPanel: React.FC<LeftPanelProps> = ({filter, setFilter}) => {
                     {statusName.map((name: StatusName) => {
                         return <li key={name.id}>
                             <Link 
-                            onClick={()=> setFilter({...filter, status: name.attr})}
+                            onClick={()=> dispatch(setFilter({...filter, status: name.attr}))}
                             data-value="all" 
                             data-role="left-status" 
                             to="" 

@@ -1,18 +1,20 @@
-import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { productObj } from "../helpers/constants";
-import { AppContext } from "../App";
-import { serverPath } from "../helpers/constants";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { addRequestEmail, addRequestName, addRequestPhone, addRequestProduct, sendDataUser } from "../../redux/features/sliceFormPage";
 
 const Form = () => {
 
     const navigate = useNavigate();
-    const { requests } = useContext(AppContext);
+    const  requests  = useAppSelector(state => state.AppSlice.requests);
+    const dispatch = useAppDispatch();
+
     const requestsID: { id: number }[] = requests;
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [email, setEmail] = useState('');
-    const [product, setProduct] = useState('course-html');
+    const  name  = useAppSelector(state => state.FormSlice.name);
+    const  phone  = useAppSelector(state => state.FormSlice.phone);
+    const  email  = useAppSelector(state => state.FormSlice.email);
+    const  product  = useAppSelector(state => state.FormSlice.product);
+    const  status  = useAppSelector(state => state.FormSlice.status);
 
     const collectDataUser = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -21,17 +23,12 @@ const Form = () => {
             phone,
             email,
             product,
+            status,
             id: requests.length !== 0 ? requestsID[requests.length - 1].id + 1 : 0,
             date : new Date().toLocaleDateString(),
-            status: "new"
         }
-
         try {
-             await fetch(serverPath, {
-                method: 'POST',
-                headers: { "Content-Type": "application/json"},
-                body: JSON.stringify(dataUserStatus)
-            })
+             await dispatch(sendDataUser(dataUserStatus))
             navigate('/table');
         } catch(err) {
             console.log(err)
@@ -47,7 +44,7 @@ const Form = () => {
         <label>Ваши данные:</label>
         <div className="form-group">
             <input 
-                onChange={(e) => setName(e.target.value)} 
+                onChange={(e) => dispatch(addRequestName(e.target.value))} 
                 value={name} 
                 id="name" 
                 type="text" 
@@ -60,7 +57,7 @@ const Form = () => {
         </div>
         <div className="form-group">
             <input 
-                onChange={(e) => setPhone(e.target.value)} 
+                onChange={(e) => dispatch(addRequestPhone(e.target.value))} 
                 value={phone} 
                 id="phone" 
                 type="text" 
@@ -72,7 +69,7 @@ const Form = () => {
         </div>
         <div className="form-group">
             <input 
-                onChange={(e)=> setEmail(e.target.value)} 
+                onChange={(e)=> dispatch(addRequestEmail(e.target.value))} 
                 value={email} 
                 id="email" 
                 type="email" 
@@ -86,7 +83,7 @@ const Form = () => {
         <div className="form-group">
             <label htmlFor="exampleFormControlSelect1">Продукт:</label>
             <select 
-                onChange={(e)=> setProduct(e.target.value)} 
+                onChange={(e)=> dispatch(addRequestProduct(e.target.value))} 
                 value={product} 
                 id="product" 
                 name="product" 
@@ -94,7 +91,7 @@ const Form = () => {
             >
                 {productObj.map((product, id) => {
                     const [ name ] = Object.keys(product);
-                    const [ title] = Object.values(product)
+                    const [ title ] = Object.values(product);
                     return <option value={name} key={id}>{title}</option>
                 })}    
             </select>

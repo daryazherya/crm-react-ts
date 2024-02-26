@@ -2,18 +2,25 @@ import '../../css/main.css';
 import '../../css/bootstrap.min.css';
 import Nav from '../MainNav';
 import RenderRequest from './RenderRequest';
-import { AppContext } from '../App';
-import { Link,useParams} from "react-router-dom";
-import { useContext } from 'react';
+import { Link, useParams } from "react-router-dom";
 import { Request } from '../../types/types';
+import {  useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { useEffect} from 'react';
+import { setRequest } from '../../redux/features/sliceEditPage';
+
 
 const EditPage: React.FC = () => {
-
-	const { requests } = useContext(AppContext);
-
+	const requests  = useAppSelector(state => state.AppSlice.requests);
+	const dispatch = useAppDispatch();
 	const { id } = useParams();
-	const findedRequest = requests.filter((request: Request) => id !== undefined && request.id === +id);
-	
+
+    useEffect(() => {
+        const foundRequest = requests.find((request: Request) => id !== undefined && request.id === +id);
+        if (foundRequest) {
+            dispatch(setRequest(foundRequest))
+        } 
+    }, [requests, id]);
+
     return ( 
         <>
         <Nav/>
@@ -32,16 +39,13 @@ const EditPage: React.FC = () => {
 				<div className="row">
 					
 					<div className="col">
-						{findedRequest && 
-						<RenderRequest 
-							findedRequest={findedRequest[0]}
-						/>}	
+						<RenderRequest/>
 					</div>
 				</div>	
 			</div>
 		</div>
         </>
-     );
+    );
 }
  
 export default EditPage;

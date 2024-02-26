@@ -1,14 +1,20 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent} from "react";
 import { useNavigate } from "react-router-dom";
 import { productObj, serverPath } from "../helpers/constants";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { setEmail, setName, setPhone, setProduct, setStatus } from "../../redux/features/sliceEditPage";
 
-const RenderRequest = ({ findedRequest })=>{
-    
-    const [name, setName] = useState(findedRequest.name);
-	const [phone, setPhone] = useState(findedRequest.phone);
-	const [email, setEmail] = useState(findedRequest.email);
-	const [product, setProduct] = useState(findedRequest.product);
-	const [status, setStatus] = useState(findedRequest.status);
+const RenderRequest: React.FC = () => {
+    const findedRequest = useAppSelector(state => state.EditSlice.findedRequest);
+    // console.log(findedRequest,'LLLL')
+    const dispatch = useAppDispatch();
+
+    const  name  = useAppSelector(state => state.EditSlice.findedRequest?.name);
+    const  phone  = useAppSelector(state => state.EditSlice.findedRequest?.phone);
+    const  email  = useAppSelector(state => state.EditSlice.findedRequest?.email);
+    const  product  = useAppSelector(state => state.EditSlice.findedRequest?.product);
+    const  status  = useAppSelector(state => state.EditSlice.findedRequest?.status);
+
 	const navigate = useNavigate();
     
 	const collectDataEditor = async (e: MouseEvent) => {
@@ -21,8 +27,9 @@ const RenderRequest = ({ findedRequest })=>{
             product,
             status
         }
+
         try {
-            await fetch(serverPath + `/${findedRequest.id}`, {
+            await fetch(serverPath + `/${findedRequest?.id}`, {
             method: 'PUT',
             headers: {'Content-Type': 'application/json' },
             body: JSON.stringify(newReq)
@@ -33,11 +40,11 @@ const RenderRequest = ({ findedRequest })=>{
         }
 
 	}
-
+    
 	const deleteRequest = async (e: MouseEvent) => {
         e.preventDefault();
         try {
-            await fetch(serverPath + `/${findedRequest.id}`, {
+            await fetch(serverPath + `/${findedRequest?.id}`, {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json' }
             })
@@ -46,11 +53,9 @@ const RenderRequest = ({ findedRequest })=>{
             console.log(error)
         }	
 	}
-
-        
-        
-    return (
-     <form id="form">
+   
+      
+    return findedRequest && <form id="form">
         <div className="card mb-4">
             <div className="card-header">Данные о заявке</div>
             <div className="card-body">
@@ -81,7 +86,7 @@ const RenderRequest = ({ findedRequest })=>{
                     </div>
                     <div className="col">
                         <select 
-                            onChange={(e)=>{setProduct(e.target.value)}} 
+                            onChange={(e)=> dispatch(setProduct(e.target.value))} 
                             id="product" 
                             name="product" 
                             className="custom-select" 
@@ -102,7 +107,7 @@ const RenderRequest = ({ findedRequest })=>{
                         <strong>Имя:</strong>
                     </div>
                     <div className="col">
-                        <input onChange={(e)=>{setName(e.target.value)}}
+                        <input onChange={(e)=> dispatch(setName(e.target.value))} 
                             type="text"
                             className="form-control"
                             value={name}
@@ -117,7 +122,7 @@ const RenderRequest = ({ findedRequest })=>{
                         <strong>Email:</strong>
                     </div>
                     <div className="col">
-                        <input onChange={(e)=>{setEmail(e.target.value)}}
+                        <input onChange={(e)=> dispatch(setEmail(e.target.value))} 
                             type="text"
                             className="form-control"
                             value={email}
@@ -132,7 +137,7 @@ const RenderRequest = ({ findedRequest })=>{
                         <strong>Телефон:</strong>
                     </div>
                     <div className="col">
-                        <input onChange={(e)=>{setPhone(e.target.value)}}
+                        <input onChange={(e)=> dispatch(setPhone(e.target.value))} 
                             type="text"
                             className="form-control"
                             value={phone}
@@ -148,7 +153,7 @@ const RenderRequest = ({ findedRequest })=>{
                     </div>
                     <div className="col">
                         <select
-                            onChange={(e)=>{setStatus(e.target.value)}} 
+                            onChange={(e)=>dispatch(setStatus(e.target.value))}
                             className="custom-select" 
                             id="status" 
                             name="status" 
@@ -175,7 +180,7 @@ const RenderRequest = ({ findedRequest })=>{
             </div>
             <div className="col text-right">
                 <button 
-                    onClick={(e) =>  deleteRequest(e)}
+                    onClick={(e) => deleteRequest(e)}
                     type="submit" 
                     className="btn btn-primary"
                 >
@@ -184,6 +189,5 @@ const RenderRequest = ({ findedRequest })=>{
             </div>
         </div> 
     </form>
-    )
 }
 export default RenderRequest;

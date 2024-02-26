@@ -1,15 +1,14 @@
 import FormStatusAndProducts from "./FormStatusAndProducts";
 import RenderData from './RenderData';
-import { MainTableProps } from "../../types/types";
 
 
-const MainTable: React.FC<MainTableProps> = ({requests, setFilter, filter, filterData}) => {
+const MainTable: React.FC= () => {
 
     return ( 
         <div className="main-wrapper">
 			<div className="container-fluid">
 				<div className="admin-heading-1">Все заявки</div>
-				<FormStatusAndProducts filter={filter} setFilter={setFilter} />
+				<FormStatusAndProducts />
 				<table className="table fs-14">
 					<thead>
 						<tr>
@@ -24,7 +23,7 @@ const MainTable: React.FC<MainTableProps> = ({requests, setFilter, filter, filte
 						</tr>
 					</thead>
 					<tbody id="tbody">
-						<RenderData requests={requests} filterData={filterData}/>
+						<RenderData />
 					</tbody>
 				</table>
 			</div>
