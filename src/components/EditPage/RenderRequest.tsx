@@ -1,25 +1,26 @@
 import { MouseEvent} from "react";
 import { useNavigate } from "react-router-dom";
-import { productObj, serverPath } from "../helpers/constants";
+import { productObj } from "../helpers/constants";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { setEmail, setName, setPhone, setProduct, setStatus } from "../../redux/features/sliceEditPage";
+import { setEmail, setName, setPhone, setProduct, setStatus, updateRequest, dropRequest } from "../../redux/features/sliceEditPage";
+import { Request } from "../../types/types";
 
 const RenderRequest: React.FC = () => {
-    const findedRequest = useAppSelector(state => state.EditSlice.findedRequest);
-    // console.log(findedRequest,'LLLL')
+    const findedRequest: Request  = useAppSelector(state => state.EditSlice.findedRequest);
     const dispatch = useAppDispatch();
 
-    const  name  = useAppSelector(state => state.EditSlice.findedRequest?.name);
-    const  phone  = useAppSelector(state => state.EditSlice.findedRequest?.phone);
-    const  email  = useAppSelector(state => state.EditSlice.findedRequest?.email);
-    const  product  = useAppSelector(state => state.EditSlice.findedRequest?.product);
-    const  status  = useAppSelector(state => state.EditSlice.findedRequest?.status);
+    const  name = useAppSelector(state => state.EditSlice.findedRequest.name);
+    const  phone  = useAppSelector(state => state.EditSlice.findedRequest.phone);
+    const  email  = useAppSelector(state => state.EditSlice.findedRequest.email);
+    const  product  = useAppSelector(state => state.EditSlice.findedRequest.product);
+    const  status  = useAppSelector(state => state.EditSlice.findedRequest.status);
 
 	const navigate = useNavigate();
     
-	const collectDataEditor = async (e: MouseEvent) => {
+	const updateDataEditor = async (e: MouseEvent) => {
         e.preventDefault();
-        const newReq = {
+        
+        const newReq: Request = {
             ...findedRequest,
             name,
             phone,
@@ -29,25 +30,18 @@ const RenderRequest: React.FC = () => {
         }
 
         try {
-            await fetch(serverPath + `/${findedRequest?.id}`, {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json' },
-            body: JSON.stringify(newReq)
-         })
+            await dispatch(updateRequest({request:newReq, id:findedRequest.id}));
             navigate('/table');
         } catch(error) {
             console.log(error)
         }
 
 	}
-    
+
 	const deleteRequest = async (e: MouseEvent) => {
         e.preventDefault();
         try {
-            await fetch(serverPath + `/${findedRequest?.id}`, {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/json' }
-            })
+            await dispatch(dropRequest(findedRequest));
             navigate('/table');
         } catch(error) {
             console.log(error)
@@ -171,7 +165,7 @@ const RenderRequest: React.FC = () => {
         <div className="row justify-content-between">
             <div className="col">
                 <button 
-                    onClick={(e) => collectDataEditor(e)}
+                    onClick={(e) => findedRequest && updateDataEditor(e)}
                     type="submit" 
                     className="btn btn-primary"
                 >

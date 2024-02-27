@@ -1,4 +1,4 @@
-import {  createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import type { RootState } from '../store'
 import {   Requests } from '../../types/types';
 import { serverPath } from '../../components/helpers/constants';
@@ -21,9 +21,7 @@ export const AppSlice = createSlice({
     name: 'appPage',
     initialState,
     reducers: {
-        setRequestsData: (state, action: PayloadAction<[]>) => {
-            state.requests = action.payload
-        }
+        
     },
     extraReducers: (builder) => {
         builder
@@ -42,7 +40,7 @@ export const AppSlice = createSlice({
     }
 })
 
-export const { setRequestsData } = AppSlice.actions;
+// export const {  } = AppSlice.actions;
 export const select = (state: RootState) => state;
 
 export default AppSlice.reducer;

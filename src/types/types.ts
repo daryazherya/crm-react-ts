@@ -15,15 +15,11 @@ export interface Status {
     complete: string;
 }
 
-export type StatusKey = keyof Status;
-
 export interface StatusClass {
     new: string;
     inwork: string;
     complete: string;
 }
-
-export type StatusKeyClass = keyof StatusClass;
 
 export interface Product {
     'course-php': string;
@@ -33,8 +29,6 @@ export interface Product {
     "course-js": string;
 }
 
-export type StatusKeyProduct = keyof Product;
-
 export interface Requests {
     requests: [],
     status: string | null,
@@ -42,9 +36,14 @@ export interface Requests {
 } 
 
 export interface EditState {
-    findedRequest: Request | null 
+    findedRequest: Request 
 }
 
+export type StatusKey = keyof Status;
+
+export type StatusKeyClass = keyof StatusClass;
+
+export type StatusKeyProduct = keyof Product;
 
 export type StatusName = {
     name: string;

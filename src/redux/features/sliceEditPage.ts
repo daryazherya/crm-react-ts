@@ -1,10 +1,43 @@
-import {  PayloadAction, createSlice } from '@reduxjs/toolkit';
+import {  PayloadAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import { EditState, Request } from '../../types/types';
+import { serverPath } from '../../components/helpers/constants';
+
+
+export const updateRequest = createAsyncThunk('editPage/updateRequest', async (payload: {request: Request, id: number}) => {
+    const { request, id } = payload;
+
+    await fetch(serverPath + `/${id}`, {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(request)
+    });
+});
+
+
+export const dropRequest = createAsyncThunk('editPage/dropRequest', async (payload: {id: number}) => {
+    const { id } = payload;
+    await fetch(serverPath + `/${id}`, {
+        method: 'DELETE',
+        headers: {
+        'Content-Type': 'application/json'
+        }
+    });
+});
 
 
 const initialState: EditState = {
-    findedRequest: null,
+    findedRequest: {
+        name: '',
+        phone: '',
+        email: '',
+        product: '',
+        id: 0,
+        date: '',
+        status: ''
+    }
 };
   
 export const EditSlice = createSlice({
