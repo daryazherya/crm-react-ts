@@ -2,7 +2,7 @@
 
 CRM - приложение, предназначенное для управления, обработки заявок от пользователя. 
 
-[Демонстрация проекта]()
+[Демонстрация проекта](https://daryazherya.github.io/crm-react-ts/)
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
