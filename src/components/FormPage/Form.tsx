@@ -29,7 +29,7 @@ const Form = () => {
         }
         try {
              await dispatch(sendDataUser(dataUserStatus))
-            navigate('/table');
+            navigate('/crm-react-ts/table', {replace: true});
         } catch(err) {
             console.log(err)
         }
