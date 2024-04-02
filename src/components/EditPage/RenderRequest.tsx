@@ -31,7 +31,7 @@ const RenderRequest: React.FC = () => {
 
         try {
             await dispatch(updateRequest({request:newReq, id:findedRequest.id}));
-            navigate('/table');
+            navigate('crm-react-ts/table');
         } catch(error) {
             console.log(error)
         }
@@ -42,7 +42,7 @@ const RenderRequest: React.FC = () => {
         e.preventDefault();
         try {
             await dispatch(dropRequest(findedRequest));
-            navigate('/table');
+            navigate('crm-react-ts/table');
         } catch(error) {
             console.log(error)
         }	
