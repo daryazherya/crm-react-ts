@@ -1,5 +1,3 @@
-import '../../css/main.css';
-import '../../css/bootstrap.min.css';
 import Nav from '../MainNav';
 import Form from './Form';
 

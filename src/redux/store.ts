@@ -5,7 +5,6 @@ import  TableSlice from './features/sliceTablePage';
 import  EditSlice from './features/sliceEditPage';
 
 
-
 export const store = configureStore({
     reducer: {
     AppSlice,

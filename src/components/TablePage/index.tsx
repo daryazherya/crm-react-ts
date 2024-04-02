@@ -1,5 +1,3 @@
-import '../../css/main.css';
-import '../../css/bootstrap.min.css';
 import Nav from '../MainNav';
 import MainTable from './MainTable';
 import LeftPanel from './LeftPanel';
