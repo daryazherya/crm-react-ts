@@ -41,7 +41,7 @@ const RenderData: React.FC = () => {
                 </div>
             </td>
             <td>
-                <Link to={`/edit/${item.id}`} 
+                <Link to={`/crm-react-ts/edit/${item.id}`} 
                 >
                     Редактировать
                 </Link>

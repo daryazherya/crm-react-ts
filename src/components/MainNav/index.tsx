@@ -4,8 +4,8 @@ const Nav = () => {
     return (
       <nav className="project-nav">
         <div className="project-nav__links-wrapper">
-            <Link to="/">Форма добавления заявок</Link>
-            <Link to="/table">Таблица с заявками</Link>
+            <Link to="/crm-react-ts/">Форма добавления заявок</Link>
+            <Link to="/crm-react-ts/table">Таблица с заявками</Link>
         </div>
     </nav>
     )

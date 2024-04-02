@@ -19,15 +19,15 @@ const App:React.FC = () => {
         <BrowserRouter>
             <Routes>
                 <Route 
-                    path="/" 
+                    path="/crm-react-ts/" 
                     element={<FormPage />}>
                 </Route>
                 <Route 
-                    path="/table" 
+                    path="/crm-react-ts/table" 
                     element={<TablePage
                 />}></Route>
                 <Route 
-                    path="/edit/:id" 
+                    path="/crm-react-ts/edit/:id" 
                     element={<EditPage 
                 />}></Route>
                 <Route 
